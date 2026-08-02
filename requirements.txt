@@ -1,12 +1,12 @@
-streamlit
 pandas
 openpyxl
 DrissionPage
 beautifulsoup4
 scipy
-numpy
 oracledb
 requests
 lxml
 plotly
 pillow==9.5.0
+streamlit==1.28.0
+numpy==1.24.3
