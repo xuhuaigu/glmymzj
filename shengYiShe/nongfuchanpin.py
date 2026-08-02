@@ -3,6 +3,7 @@ import pandas as pd
 from shengYiShe import MaltodextrinScraper
 import time
 from datetime import datetime
+import os
 import io
 from data_processing import data_exporter
 
@@ -335,7 +336,14 @@ with tab3:
         # 固定保存路径
         import os
         from datetime import datetime
-        save_dir = r"..\..\Python脚本\5-养猪网数据存储\生意社"
+
+        # 获取当前文件所在目录
+        _CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+        # 项目根目录
+        _PROJECT_ROOT = os.path.dirname(_CURRENT_DIR)
+        # 默认保存目录
+        DEFAULT_SAVE_DIR = os.path.join(_PROJECT_ROOT, 'data_save', 'shengyishe')
+        save_dir = DEFAULT_SAVE_DIR
         
         os.makedirs(save_dir, exist_ok=True)
         
@@ -438,8 +446,14 @@ st.markdown("合并两个Excel文件，去重后生成新文件")
 # 文件选择
 col_a, col_b, col_merge_btn = st.columns([3, 3, 1])
 
+# 获取当前文件所在目录
+_CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+# 项目根目录
+_PROJECT_ROOT = os.path.dirname(_CURRENT_DIR)
+# 默认保存目录
+DEFAULT_SAVE_DIR = os.path.join(_PROJECT_ROOT, 'data_save', 'shengyishe')
 # 默认路径
-default_dir = r"M:\Mxuhuaigu\xiangmuwenjian\mzjxuhuaigu\Python脚本\5-养猪网数据存储\生意社"
+default_dir = DEFAULT_SAVE_DIR
 
 with col_a:
     # 获取目录下所有Excel文件
