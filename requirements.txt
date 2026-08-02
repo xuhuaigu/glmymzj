@@ -3,7 +3,7 @@ pandas
 openpyxl
 DrissionPage
 beautifulsoup4
-
+scipy
 numpy
 oracledb
 requests
