@@ -130,7 +130,7 @@ if test_mode == "📥 从列表页批量爬取":
                             
                             # 保存到Excel
                             if merge_file_path:
-                                success = spider.save_to_excel(merge_file=merge_file_path)
+                                success = spider.save_to_excel(merge_file=merge_file_path) 
                             else:
                                 if filename:
                                     success = spider.save_to_excel(filename=filename)
@@ -139,7 +139,7 @@ if test_mode == "📥 从列表页批量爬取":
                             
                             if success and spider.df is not None:
                                 st.success(f"✅ 数据保存成功！")
-                                
+                                st.write(filename)
                                 # 显示数据预览
                                 st.subheader("📊 数据预览")
                                 st.dataframe(spider.df.head(10), use_container_width=True)
