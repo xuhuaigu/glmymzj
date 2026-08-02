@@ -6,3 +6,4 @@ beautifulsoup4
 plotly
 numpy
 oracledb
+BeautifulSoup
