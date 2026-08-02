@@ -20,7 +20,9 @@ st.title("🔮 猪价预测系统")
 st.markdown("> 基于历史数据，使用多种算法预测未来猪价走势")
 
 # ==================== 数据加载 ====================
-FILE_PATH = r"H:\mzjxuhuaigu\SQL\Python脚本\5-养猪网数据存储\合并标记_20260722_153225.xlsx"
+# 默认文件路径
+current_dir = os.path.dirname(os.path.abspath(__file__))
+FILE_PATH = os.path.join(os.path.dirname(current_dir), 'data_save', 'yangzhuwang_shengzhu', '合并标记_20260801_171825.xlsx')
 
 @st.cache_data
 def load_data(file_path):

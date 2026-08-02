@@ -17,10 +17,17 @@ import warnings
 import scipy.stats as stats
 warnings.filterwarnings('ignore')
 
+# 获取当前文件所在目录
+_CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+# 项目根目录
+_PROJECT_ROOT = os.path.dirname(_CURRENT_DIR)
+# 默认保存目录
+DEFAULT_SAVE_DIR = os.path.join(_PROJECT_ROOT, 'data_save', 'yangzhuwang_shengzhu')
+
 # ==================== 配置 ====================
 class PigSpiderConfig:
     """生猪爬虫配置"""
-    DEFAULT_SAVE_DIR = r"H:\mzjxuhuaigu\SQL\Python脚本\5-养猪网数据存储"
+    DEFAULT_SAVE_DIR = DEFAULT_SAVE_DIR
     DEFAULT_CREATOR = "mzj"
     USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
     TIMEOUT = 30
