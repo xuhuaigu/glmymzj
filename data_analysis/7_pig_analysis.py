@@ -5,7 +5,6 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 from datetime import datetime, timedelta
-import matplotlib.pyplot as plt
 
 st.set_page_config(page_title="生猪养殖数据分析", page_icon="🐷", layout="wide")
 

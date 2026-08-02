@@ -11,3 +11,4 @@ pillow
 streamlit
 numpy
 pyarrow
+sqlalchemy
