@@ -12,3 +12,4 @@ streamlit
 numpy
 pyarrow
 sqlalchemy
+pymysql
