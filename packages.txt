@@ -1,4 +1,2 @@
 zlib1g-dev
 libjpeg-dev
-libarrow-dev
-libarrow-python-dev
