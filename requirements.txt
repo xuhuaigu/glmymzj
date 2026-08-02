@@ -5,3 +5,4 @@ DrissionPage
 beautifulsoup4
 plotly
 numpy
+oracledb
