@@ -8,4 +8,4 @@ numpy
 oracledb
 requests
 lxml
-plotly==5.24.1  # 最新稳定版
+plotly
