@@ -496,8 +496,16 @@ if merge_btn and file_a and file_b:
         
         # ✅ 使用 pandas 读取两个文件
         import pandas as pd
-        df_a = pd.read_excel(file_a_path)
-        df_b = pd.read_excel(file_b_path)
+
+        # 读取文件A
+        sheet_names_a = pd.ExcelFile(file_a_path).sheet_names
+        sheet_name_a = '合并去重数据' if '合并去重数据' in sheet_names_a else sheet_names_a[0]
+        df_a = pd.read_excel(file_a_path, sheet_name=sheet_name_a)
+
+        # 读取文件B
+        sheet_names_b = pd.ExcelFile(file_b_path).sheet_names
+        sheet_name_b = '合并去重数据' if '合并去重数据' in sheet_names_b else sheet_names_b[0]
+        df_b = pd.read_excel(file_b_path, sheet_name=sheet_name_b)
         
         # 确定去重依据的字段（排除创建人和创建时间）
         exclude_cols = ['创建人', '创建时间']
