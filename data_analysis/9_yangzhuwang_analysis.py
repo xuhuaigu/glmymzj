@@ -35,7 +35,7 @@ COLOR_PALETTE = [
 
 # 默认文件路径
 # DEFAULT_FILE_PATH = r"H:\mzjxuhuaigu\SQL\Python脚本\5-养猪网数据存储\合并标记_20260726_154416.xlsx"
-DEFAULT_FILE_PATH = r'..\data_save\yangzhuwang_shengzhu\合并标记_20260801_171825.xlsx'
+DEFAULT_FILE_PATH = r'glmymzj\data_save\yangzhuwang_shengzhu\合并标记_20260801_171825.xlsx'
 # 获取目录下所有Excel文件
 def get_excel_files(directory):
     """获取指定目录下的所有Excel文件"""
