@@ -9,3 +9,4 @@ oracledb
 requests
 lxml
 plotly
+pillow==9.5.0
