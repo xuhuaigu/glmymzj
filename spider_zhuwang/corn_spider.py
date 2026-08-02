@@ -11,6 +11,12 @@ import os
 import glob
 from openpyxl.utils import get_column_letter
 
+# 获取当前文件所在目录
+_CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+# 项目根目录
+_PROJECT_ROOT = os.path.dirname(_CURRENT_DIR)
+# 默认保存目录
+DEFAULT_SAVE_DIR = os.path.join(_PROJECT_ROOT, 'data_save', 'yangzhuwang_yumi')
 
 class CornPriceSpider:
     """
@@ -20,7 +26,7 @@ class CornPriceSpider:
     """
     
     # 默认保存目录
-    DEFAULT_SAVE_DIR = r"H:\mzjxuhuaigu\SQL\Python脚本\5-养猪网数据存储\玉米"
+    DEFAULT_SAVE_DIR = DEFAULT_SAVE_DIR
     
     def __init__(self, creator='mzj', save_dir=None):
         """
@@ -611,20 +617,20 @@ class CornPriceSpider:
                 # Sheet1: 全部数据
                 self.df.to_excel(writer, sheet_name='全部数据', index=False)
                 
-                # Sheet2: 保留数据
-                keep_df = self.df[self.df['数据状态'] == '保留'].copy() if '数据状态' in self.df.columns else self.df.copy()
-                if not keep_df.empty:
-                    keep_df.to_excel(writer, sheet_name='保留_最新数据', index=False)
+                # # Sheet2: 保留数据
+                # keep_df = self.df[self.df['数据状态'] == '保留'].copy() if '数据状态' in self.df.columns else self.df.copy()
+                # if not keep_df.empty:
+                #     keep_df.to_excel(writer, sheet_name='保留_最新数据', index=False)
                 
-                # Sheet3: 历史数据
-                history_df = self.df[self.df['数据状态'] == '历史'].copy() if '数据状态' in self.df.columns else pd.DataFrame()
-                if not history_df.empty:
-                    history_df.to_excel(writer, sheet_name='历史_需归档', index=False)
+                # # Sheet3: 历史数据
+                # history_df = self.df[self.df['数据状态'] == '历史'].copy() if '数据状态' in self.df.columns else pd.DataFrame()
+                # if not history_df.empty:
+                #     history_df.to_excel(writer, sheet_name='历史_需归档', index=False)
                 
-                # Sheet4: 统计信息
-                stats_data = self._get_stats_data()
-                stats_df = pd.DataFrame(stats_data)
-                stats_df.to_excel(writer, sheet_name='统计信息', index=False)
+                # # Sheet4: 统计信息
+                # stats_data = self._get_stats_data()
+                # stats_df = pd.DataFrame(stats_data)
+                # stats_df.to_excel(writer, sheet_name='统计信息', index=False)
                 
                 self._adjust_column_width(writer, '全部数据')
                 if not keep_df.empty:
