@@ -237,7 +237,7 @@ with tab6:
     import streamlit as st
     import plotly.graph_objects as go
     # file_path = r"M:\Mxuhuaigu\xiangmuwenjian\mzj\mzjxuhuaigu\Python脚本\6--自动化\原料价格采集自动化流程\合并处理后的数据.xlsx"
-    file_path = r"..\data_save\shengyishe\农副_报价_20260801【可以查到历史的所有数据】.xlsx"
+    file_path = r"..\data_save\shengyishe\农副_报价_合并结果_20260809_172657.xlsx"
     df_master = pd.read_excel(file_path, sheet_name="合并去重数据")
     col1, col2 = st.columns([0.1, 0.9])
     with col1:
