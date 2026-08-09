@@ -617,20 +617,20 @@ class CornPriceSpider:
                 # Sheet1: 全部数据
                 self.df.to_excel(writer, sheet_name='全部数据', index=False)
                 
-                # # Sheet2: 保留数据
-                # keep_df = self.df[self.df['数据状态'] == '保留'].copy() if '数据状态' in self.df.columns else self.df.copy()
-                # if not keep_df.empty:
-                #     keep_df.to_excel(writer, sheet_name='保留_最新数据', index=False)
+                # Sheet2: 保留数据
+                keep_df = self.df[self.df['数据状态'] == '保留'].copy() if '数据状态' in self.df.columns else self.df.copy()
+                if not keep_df.empty:
+                    keep_df.to_excel(writer, sheet_name='保留_最新数据', index=False)
                 
-                # # Sheet3: 历史数据
-                # history_df = self.df[self.df['数据状态'] == '历史'].copy() if '数据状态' in self.df.columns else pd.DataFrame()
-                # if not history_df.empty:
-                #     history_df.to_excel(writer, sheet_name='历史_需归档', index=False)
+                # Sheet3: 历史数据
+                history_df = self.df[self.df['数据状态'] == '历史'].copy() if '数据状态' in self.df.columns else pd.DataFrame()
+                if not history_df.empty:
+                    history_df.to_excel(writer, sheet_name='历史_需归档', index=False)
                 
-                # # Sheet4: 统计信息
-                # stats_data = self._get_stats_data()
-                # stats_df = pd.DataFrame(stats_data)
-                # stats_df.to_excel(writer, sheet_name='统计信息', index=False)
+                # Sheet4: 统计信息
+                stats_data = self._get_stats_data()
+                stats_df = pd.DataFrame(stats_data)
+                stats_df.to_excel(writer, sheet_name='统计信息', index=False)
                 
                 self._adjust_column_width(writer, '全部数据')
                 if not keep_df.empty:
