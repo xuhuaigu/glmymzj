@@ -264,3 +264,134 @@ elif test_mode == "🔧 单URL测试":
 
 st.markdown("---")
 st.caption(f"🌽 玉米价格爬虫 | 更新时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+
+# ==================== 数据合并功能 ====================
+st.divider()
+st.subheader("🔗 数据合并")
+
+st.markdown("合并两个Excel文件，去重后生成新文件")
+
+# 文件选择
+col_a, col_b, col_merge_btn = st.columns([3, 3, 1])
+
+# 获取当前文件所在目录
+_CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+# 项目根目录
+_PROJECT_ROOT = os.path.dirname(_CURRENT_DIR)
+# 默认保存目录
+DEFAULT_SAVE_DIR = os.path.join(_PROJECT_ROOT, 'data_save', 'yangzhuwang_yumi')
+# 默认路径
+default_dir = DEFAULT_SAVE_DIR
+
+with col_a:
+    # 获取目录下所有Excel文件
+    import os
+    excel_files = []
+    if os.path.exists(default_dir):
+        excel_files = [f for f in os.listdir(default_dir) if f.endswith(('.xlsx', '.xls'))]
+    
+    file_a = st.selectbox(
+        "选择A文件（原数据）",
+        options=[""] + excel_files,
+        key="merge_file_a",
+        help="选择要合并的第一个文件"
+    )
+
+with col_b:
+    file_b = st.selectbox(
+        "选择B文件（新增数据）",
+        options=[""] + excel_files,
+        key="merge_file_b",
+        help="选择要合并的第二个文件"
+    )
+
+with col_merge_btn:
+    st.write("")  # 占位
+    st.write("")  # 占位
+    merge_btn = st.button(
+        "🔄 合并文件",
+        type="primary",
+        use_container_width=True,
+        key="merge_btn",
+        disabled=not (file_a and file_b)
+    )
+
+# 合并结果展示
+if merge_btn and file_a and file_b:
+    try:
+        file_a_path = os.path.join(default_dir, file_a)
+        file_b_path = os.path.join(default_dir, file_b)
+        
+        # ✅ 使用 pandas 读取两个文件
+        import pandas as pd
+
+        # 读取文件A
+        sheet_names_a = pd.ExcelFile(file_a_path).sheet_names
+        sheet_name_a = '合并去重数据' if '合并去重数据' in sheet_names_a else sheet_names_a[0]
+        df_a = pd.read_excel(file_a_path, sheet_name=sheet_name_a)
+
+        # 读取文件B
+        sheet_names_b = pd.ExcelFile(file_b_path).sheet_names
+        sheet_name_b = '全部数据' if '全部数据' in sheet_names_b else sheet_names_b[0]
+        df_b = pd.read_excel(file_b_path, sheet_name=sheet_name_b)
+        
+        # 确定去重依据的字段（排除创建人和创建时间）
+        exclude_cols = ['创建人', '创建时间']
+        duplicate_cols = [col for col in df_a.columns if col not in exclude_cols]
+        
+        # 合并两个DataFrame
+        df_combined = pd.concat([df_a, df_b], ignore_index=True)
+        
+        # 去重（不根据创建人和创建时间）
+        df_unique = df_combined.drop_duplicates(subset=duplicate_cols, keep='first')
+        
+        # ✅ 生成输出文件名
+        base_name = os.path.splitext(os.path.basename(file_a))[0]
+        result_file = os.path.join(default_dir, f"{base_name}_合并结果_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx")
+        
+        # ✅ 使用 pandas 保存到默认路径
+        with pd.ExcelWriter(result_file, engine='openpyxl') as writer:
+            df_a.to_excel(writer, sheet_name='原数据', index=False)
+            df_b.to_excel(writer, sheet_name='新增数据', index=False)
+            df_unique.to_excel(writer, sheet_name='合并去重数据', index=False)
+        
+        # 显示成功信息
+        st.success(f"✅ 合并完成！文件已保存到：{result_file}")
+        
+        # 显示统计信息
+        col1, col2, col3, col4 = st.columns(4)
+        with col1:
+            st.metric("A文件数据量", len(df_a))
+        with col2:
+            st.metric("B文件数据量", len(df_b))
+        with col3:
+            st.metric("合并去重后", len(df_unique))
+        with col4:
+            duplicate_count = len(df_a) + len(df_b) - len(df_unique)
+            st.metric("去除重复", duplicate_count, delta=f"-{duplicate_count}" if duplicate_count > 0 else "0")
+        
+        # 显示合并后的数据预览
+        st.subheader("📋 合并去重后数据预览（前20条）")
+        st.dataframe(df_unique.head(20), use_container_width=True)
+        
+        # ✅ 显示文件路径和打开文件夹按钮
+        st.info(f"📁 合并结果已保存到：`{result_file}`")
+        
+        col_open1, col_open2 = st.columns([1, 5])
+        with col_open1:
+            open_folder_btn = st.button(
+                "📂 打开保存文件夹",
+                use_container_width=True,
+                key="open_merge_folder_btn"
+            )
+            if open_folder_btn:
+                try:
+                    os.startfile(default_dir)
+                except:
+                    st.warning("无法自动打开文件夹，请手动打开路径")
+        
+    except Exception as e:
+        st.error(f"❌ 合并失败：{str(e)}")
+else:
+    if merge_btn:
+        st.warning("请选择A文件和B文件")
