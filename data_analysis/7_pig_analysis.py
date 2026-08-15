@@ -236,8 +236,28 @@ with tab6:
     import pandas as pd
     import streamlit as st
     import plotly.graph_objects as go
-    # file_path = r"M:\Mxuhuaigu\xiangmuwenjian\mzj\mzjxuhuaigu\Python脚本\6--自动化\原料价格采集自动化流程\合并处理后的数据.xlsx"
-    file_path = r"..\data_save\shengyishe\农副_报价_合并结果_20260809_172657.xlsx"
+    import os
+    # 获取当前文件所在目录
+    _CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+    # 项目根目录
+    _PROJECT_ROOT = os.path.dirname(_CURRENT_DIR)
+    # 默认保存目录
+    DEFAULT_SAVE_DIR = os.path.join(_PROJECT_ROOT, 'data_save', 'shengyishe')
+    # 默认路径
+    default_dir = DEFAULT_SAVE_DIR
+
+    excel_files = []
+    if os.path.exists(default_dir):
+        excel_files = [f for f in os.listdir(default_dir) if f.endswith(('.xlsx', '.xls'))]
+    
+    file_a = st.selectbox(
+        "选择可视文件",
+        options=excel_files,
+        key="merge_file_a",
+        help="选择可视列文件"
+    )
+    file_a_path = os.path.join(default_dir, file_a)
+    file_path = file_a_path
     df_master = pd.read_excel(file_path, sheet_name="合并去重数据")
     col1, col2 = st.columns([0.1, 0.9])
     with col1:
