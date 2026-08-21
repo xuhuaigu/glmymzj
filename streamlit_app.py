@@ -211,6 +211,12 @@ spider_zhuwang2 = st.Page(
     title="养猪网--玉米数据",
     icon="🕷️"
 ) 
+# 养猪网数据爬取界面
+spider_zhuwang2 = st.Page(
+    "spider_zhuwang/soybean_meal_page.py",
+    title="养猪网--豆粕数据",
+    icon="🕷️"
+) 
 shengYiShe1 = st.Page(
     "shengYiShe/nongfuchanpin.py",
     title="生意社--所有数据",
@@ -239,7 +245,7 @@ data_analysis_pages = [
 ]
 # 桂柳牧业页面
 glmyjt_pages = [glmyjt1, glmyjt2, data_analysis1, data_analysis2, data_analysis3, data_analysis9, data_analysis10, 
-        respond_3, spider_zhuwang1, spider_zhuwang2, shengYiShe1, data_analysis7, data_analysis8]
+        respond_3, spider_zhuwang1, spider_zhuwang2, spider_zhuwang3, shengYiShe1, data_analysis7, data_analysis8]
 # ==================== 页面标题和Logo ====================
 # st.title("Request manager")
 st.logo("images/horizontal_blue.png", icon_image="🕷️")

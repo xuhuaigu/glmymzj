@@ -16,12 +16,12 @@ _CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 # 项目根目录
 _PROJECT_ROOT = os.path.dirname(_CURRENT_DIR)
 # 默认保存目录
-DEFAULT_SAVE_DIR = os.path.join(_PROJECT_ROOT, 'data_save', 'yangzhuwang_yumi')
+DEFAULT_SAVE_DIR = os.path.join(_PROJECT_ROOT, 'data_save', 'yangzhuwang_doupo')
 
 class CornPriceSpider:
     """
-    玉米价格数据爬虫类
-    用于爬取中国养猪网玉米价格数据并保存到Excel
+    豆粕价格数据爬虫类
+    用于爬取中国养猪网豆粕价格数据并保存到Excel
     支持省级数据和全国数据两种格式
     """
     
@@ -41,7 +41,7 @@ class CornPriceSpider:
         
         # 确保保存目录存在
         os.makedirs(self.save_dir, exist_ok=True)
-        print(f"📁 玉米数据保存目录: {self.save_dir}")
+        print(f"📁 豆粕数据保存目录: {self.save_dir}")
         
         self.headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
@@ -56,8 +56,8 @@ class CornPriceSpider:
         self.province_names = []
     
     def get_excel_files(self):
-        """获取目录下所有玉米价格Excel文件"""
-        pattern = os.path.join(self.save_dir, "玉米价格_*.xlsx")
+        """获取目录下所有豆粕价格Excel文件"""
+        pattern = os.path.join(self.save_dir, "豆粕价格_*.xlsx")
         files = glob.glob(pattern)
         files.sort(key=os.path.getmtime, reverse=True)
         return files
@@ -137,7 +137,7 @@ class CornPriceSpider:
         return data, data_type, province_name
     
     def fetch_province_data(self, url, province_name=None):
-        """爬取省级玉米价格数据"""
+        """爬取省级豆粕价格数据"""
         print(f"正在爬取省级数据: {url}")
         
         try:
@@ -210,7 +210,7 @@ class CornPriceSpider:
             return []
     
     def fetch_national_data(self, url):
-        """爬取全国玉米价格数据"""
+        """爬取全国豆粕价格数据"""
         print(f"正在爬取全国数据: {url}")
         
         try:
@@ -486,7 +486,7 @@ class CornPriceSpider:
         将新数据与已有Excel文件合并
         
         逻辑：
-        1. 读取已有文件A（Sheet: 玉米价格）
+        1. 读取已有文件A（Sheet: 豆粕价格）
         2. 新爬取数据B
         3. 合并去重后生成C
         4. 输出三个Sheet：A原数据、B新增数据、C合并去重数据
@@ -497,13 +497,13 @@ class CornPriceSpider:
             from datetime import datetime
             import os
             
-            # 1. 读取已有数据A（Sheet: 玉米价格）
+            # 1. 读取已有数据A（Sheet: 豆粕价格）
             xls = pd.ExcelFile(excel_file_path)
             
-            # 优先读取"玉米价格"Sheet
-            if '玉米价格' in xls.sheet_names:
-                df_a = pd.read_excel(excel_file_path, sheet_name='玉米价格')
-                print(f"📖 已读取现有数据A: {len(df_a)} 条记录 (Sheet: 玉米价格)")
+            # 优先读取"豆粕价格"Sheet
+            if '豆粕价格' in xls.sheet_names:
+                df_a = pd.read_excel(excel_file_path, sheet_name='豆粕价格')
+                print(f"📖 已读取现有数据A: {len(df_a)} 条记录 (Sheet: 豆粕价格)")
             else:
                 # 如果不存在，读取第一个Sheet
                 df_a = pd.read_excel(excel_file_path, sheet_name=0)
@@ -583,7 +583,7 @@ class CornPriceSpider:
             print(f"将数据合并到已有文件: {save_filename}")
         else:
             if filename is None:
-                filename = f"玉米价格_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx"
+                filename = f"豆粕价格_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx"
             
             if os.path.dirname(filename):
                 if not filename.startswith(self.save_dir):
@@ -682,20 +682,20 @@ class CornPriceSpider:
             worksheet.column_dimensions[get_column_letter(col_idx + 1)].width = min(column_width, 30)
     
     def get_latest_file(self):
-        """获取最新的玉米价格文件"""
+        """获取最新的豆粕价格文件"""
         files = self.get_excel_files()
         if not files:
             return None
         return files[0]
     
     def get_all_files(self):
-        """获取所有玉米价格文件"""
+        """获取所有豆粕价格文件"""
         return self.get_excel_files()
     
     def run_from_list_page(self, list_url, max_pages=1, filename=None, merge_file=None):
         """从列表页爬取所有详情页数据并合并保存（主入口方法）"""
         print("=" * 60)
-        print("玉米价格数据爬虫 - 从列表页批量爬取")
+        print("豆粕价格数据爬虫 - 从列表页批量爬取")
         print("=" * 60)
         print(f"列表页URL: {list_url}")
         print(f"最大页数: {max_pages}")
@@ -726,7 +726,7 @@ class CornPriceSpider:
             success = self.save_to_excel(merge_file=merge_file)
         else:
             if filename is None:
-                filename = f"玉米价格_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx"
+                filename = f"豆粕价格_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx"
             if not os.path.dirname(filename):
                 filename = os.path.join(self.save_dir, filename)
             success = self.save_to_excel(filename=filename)
